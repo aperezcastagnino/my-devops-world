@@ -2,7 +2,7 @@ variable "vpc_id" {
   description = "Variable for VPC ID"
 }
 
-variable "private_subnets" {
+variable "private_subnet" {
   description = "List of private subnets used by RDS"
 }
 

@@ -20,3 +20,8 @@ variable "vpc_id" {
 variable "subnet_id" {
   description = "Id of the network (public or private) used by the EC2 instance"
 }
+
+
+variable "key_name" {
+  description = "Id of the network (public or private) used by the EC2 instance"
+}

@@ -7,35 +7,33 @@ module "network" {
 }
 
 module "ec2-linux-1" {
-  source  = "./modules/ec2-linux"
-  ec2name = "EC2_1"
-
+  source    = "./modules/ec2-linux"
+  ec2name   = "EC2_1"
+  key_name  = "keyName1"
   vpc_id    = module.network.vpc_id
   subnet_id = module.network.public_subnet
 }
 
-# module "ec2-linux-2" {
-#   source  = "./modules/ec2-linux"
-#   ec2name = "EC2_2"
+module "ec2-linux-2" {
+  source   = "./modules/ec2-linux"
+  ec2name  = "EC2_2"
+  key_name = "keyName2"
 
-#   vpc_id    = module.network.vpc_id
-#   subnet_id = module.network.private_subnet
-# }
+  vpc_id    = module.network.vpc_id
+  subnet_id = module.network.private_subnet
+}
 
-# module "rds" {
-#   source = "./modules/rds"
-#   region = var.region
-#   rds_data = {
-#     name              = "db-rds",
-#     engine            = "postgres",
-#     engine_version    = "13.4",
-#     instance_class    = "db.t3.micro",
-#     allocated_storage = 5,
-#     family            = "postgres13"
-#   }
-#   db-name                = "db"
-#   secret_password_id     = "example/db/dev"
-#   vpc_security_group_ids = [module.module-network.security_group_id]
-#   subnet_ids             = [module.module-network.network_interface_1_id]
-#   subnet_group           = "subnet_group"
-# }
+module "rds" {
+  source                  = "./modules/rds"
+  vpc_id                  = module.network.vpc_id
+  private_subnet          = module.network.private_subnet
+  db_name                 = "db-rds"
+  secret_password_id      = "example/db/dev"
+  engine                  = "postgres"
+  engine_version          = "13.4"
+  rds_instance_class      = "db.t3.micro"
+  rds_storage             = "20"
+  backup_retention_period = 7
+  identifier              = "peinfra_RDS"
+  cidr_block              = "172.25.0.0/16"
+}

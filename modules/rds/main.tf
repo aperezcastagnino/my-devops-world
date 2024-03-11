@@ -1,5 +1,5 @@
 resource "aws_security_group" "rds_sg" {
-  name   = "${locals.prefix}_RDS_security_group"
+  name   = "${local.prefix}_RDS_security_group"
   vpc_id = var.vpc_id
 
   ingress {
@@ -34,11 +34,11 @@ resource "aws_db_instance" "myinstance" {
 }
 
 resource "aws_db_subnet_group" "subnetgroup" {
-  name       = "${locals.prefix}__subnet_group"
-  subnet_ids = var.private_subnets
+  name       = "${local.prefix}__subnet_group"
+  subnet_ids = var.private_subnet
 
   tags = {
-    Name        = "${locals.prefix}_subnet_group"
+    Name        = "${local.prefix}_subnet_group"
   }
 }
 
